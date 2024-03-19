@@ -9,6 +9,7 @@
 #include "../Scenes/ScenePlayerTwo.h"
 #include "../GameBoard/GameBoard.h"
 #include "../Scenes/SceneManager.h"
+#include "../Engine/Core/GameObject/Sprite/Sprite.h"
 #include "../Engine/Core/Window/Window.h"
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
@@ -24,6 +25,14 @@ void ABFramework::TwoPlayerController::GLFWOnLeftClick(GLFWwindow* window, int b
 	{
 		privClickLeftPlayerOne();
 		privClickLeftPlayerTwo();
+		if (ScenePlayerTwo::GetGameState() != ScenePlayerTwo::GameState::NONE)
+		{
+			if (Collision::Check(SceneManager::GetPlayerTwoScene()->GetMainMenuBtn()->GetCollider(), Input::GetMouseCollider()))
+			{
+				SceneManager::NextScene();
+			}
+			
+		}
 	}
 }
 
