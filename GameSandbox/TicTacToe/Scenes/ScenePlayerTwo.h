@@ -50,6 +50,7 @@ namespace ABFramework
 		static TurnPlayer GetCurrentTurn();
 		static GameState GetGameState();
 		class GameBoard* GetGameBoard();
+		class Sprite* GetMainMenuBtn();
 
 	private:
 		bool privTestRowWin();
@@ -65,8 +66,17 @@ namespace ABFramework
 		const AssetDef EmptySquare = { "..\\GameSandbox\\Assets\\Textures\\Empty.tga","Empty" };
 		const AssetDef XSquare = { "..\\GameSandbox\\Assets\\Textures\\xsquare.tga","XSquare" };
 		const AssetDef OSquare = { "..\\GameSandbox\\Assets\\Textures\\osquare.tga","OSquare" };
+		const AssetDef MainMenuBtn = { "..\\GameSandbox\\Assets\\Textures\\MainMenuBtn.tga","MainMenuBtn", true };
+		const AssetDef PlayerOneWins = { "..\\GameSandbox\\Assets\\Textures\\Player1Wins.tga","PlayerOneWins", true };
+		const AssetDef PlayerTwoWins = { "..\\GameSandbox\\Assets\\Textures\\Player2Wins.tga","PlayerTwoWins", true };
+		const AssetDef PlayersDraw = { "..\\GameSandbox\\Assets\\Textures\\Draw.tga","PlayersDraw", true };
 		class GameBoard* pBoard;
 		class CurrentPlayerIcon* pCurrentPlayerIcon;
+		class Sprite* pMainMenuBtn;
+		class Sprite* pGameResult;
+		t_handle h_Draw;
+		t_handle h_PlayerOneWin;
+		t_handle h_PlayerTwoWin;
 
 	};
 }
