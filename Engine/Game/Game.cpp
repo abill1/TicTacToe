@@ -75,7 +75,6 @@ void ABFramework::Game::CloseSystems()
 void ABFramework::Game::Update()
 {
     Input::Process();
-    SubUpdateRoutine();
     GameObjectManager::Update();
 }
 

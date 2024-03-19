@@ -38,7 +38,6 @@ namespace ABFramework
 	protected:
 		void GameLoop();
 		void privPrintOpenGLVersion() const;
-		virtual void SubUpdateRoutine() {}
 
 	protected:
 		Window* pWindow;
