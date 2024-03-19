@@ -29,6 +29,9 @@ namespace ABFramework
 
 		// ----- Getters ----- //
 
+		static class SceneMainMenu* GetMainMenuScene();
+		static class ScenePlayerTwo* GetPlayerTwoScene();
+
 	private:
 		static SceneManager* privGetInstance();
 

@@ -49,6 +49,7 @@ namespace ABFramework
 
 		static TurnPlayer GetCurrentTurn();
 		static GameState GetGameState();
+		class GameBoard* GetGameBoard();
 
 	private:
 		bool privTestRowWin();
@@ -65,7 +66,6 @@ namespace ABFramework
 		const AssetDef XSquare = { "..\\GameSandbox\\Assets\\Textures\\xsquare.tga","XSquare" };
 		const AssetDef OSquare = { "..\\GameSandbox\\Assets\\Textures\\osquare.tga","OSquare" };
 		class GameBoard* pBoard;
-		class TwoPlayerController* pController;
 		class CurrentPlayerIcon* pCurrentPlayerIcon;
 
 	};

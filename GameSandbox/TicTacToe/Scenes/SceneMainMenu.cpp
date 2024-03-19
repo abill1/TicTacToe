@@ -10,29 +10,36 @@
 #include "../Engine/Core/Collision/Collider/AABB.h"
 #include "../Engine/Core/Input/Input.h"
 #include "../Controller/MainMenuController.h"
+#include "../Scenes/SceneManager.h"
 
 //********************************************************************************//
 //                        Constructors / Destructor                               //
 //********************************************************************************//
 
 ABFramework::SceneMainMenu::SceneMainMenu()
-	:Scene(), pExitBtn(new Sprite()), pController(nullptr)
+	:Scene(), pExitBtn(new Sprite()), pTwoPlayerBtn(new Sprite())
 {
 	t_handle h_exitBtn = AssetManager::AddTexture(ExitBtn);
-	pExitBtn->SetMesh(AssetManager::GetSquareMesh());
+	Square_Mesh* pMesh = AssetManager::GetSquareMesh();
+	pExitBtn->SetMesh(pMesh);
 	pExitBtn->SetTexture(AssetManager::FindTexture(h_exitBtn));
-	pExitBtn->SetPosition(Point3D(0.0f, 0.0f, 0.0f));
+	pExitBtn->SetPosition(Point3D(0.0f, -100.0f, 0.0f));
 	pExitBtn->SetScale(Scale(640.0f, 48.0f, 0.0f));
-	pController = new class MainMenuController(this);
+
+	t_handle h_twoPlayerBtn = AssetManager::AddTexture(TwoPlayerBtn);
+	pTwoPlayerBtn->SetMesh(pMesh);
+	pTwoPlayerBtn->SetTexture(AssetManager::FindTexture(h_twoPlayerBtn));
+	pTwoPlayerBtn->SetPosition(Point3D(0.0f, 0.0f, 0.0f));
+	pTwoPlayerBtn->SetScale(Scale(640.0f, 48.0f, 0.0f));
 
 }
 
 ABFramework::SceneMainMenu::~SceneMainMenu()
 {
+	delete pTwoPlayerBtn;
+	pTwoPlayerBtn = nullptr;
 	delete pExitBtn;
 	pExitBtn = nullptr;
-	delete pController;
-	pController = nullptr;
 
 }
 
@@ -49,7 +56,7 @@ ABFramework::SceneMainMenu::~SceneMainMenu()
 
 void ABFramework::SceneMainMenu::SetupScene()
 {
-	Input::BindAction(MouseCode::BUTTON_LEFT, &PlayerController::OnClickLeft, pController);
+	Input::BindAction(&MainMenuController::OnClickLeft);
 }
 
 void ABFramework::SceneMainMenu::CleanUpScene()
@@ -60,11 +67,13 @@ void ABFramework::SceneMainMenu::CleanUpScene()
 
 void ABFramework::SceneMainMenu::Update()
 {
+	pTwoPlayerBtn->Update();
 	pExitBtn->Update();
 }
 
 void ABFramework::SceneMainMenu::Draw()
 {
+	pTwoPlayerBtn->Draw(Camera::GetViewProjectionMatrix());
 	pExitBtn->Draw(Camera::GetViewProjectionMatrix());
 }
 
@@ -82,6 +91,11 @@ void ABFramework::SceneMainMenu::Draw()
 ABFramework::Sprite* ABFramework::SceneMainMenu::GetExitBtn() const
 {
 	return pExitBtn;
+}
+
+ABFramework::Sprite* ABFramework::SceneMainMenu::GetTwoPlayerBtn() const
+{
+	return pTwoPlayerBtn;
 }
 
 //********************************************************************************//

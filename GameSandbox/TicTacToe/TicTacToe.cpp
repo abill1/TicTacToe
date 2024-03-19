@@ -35,8 +35,7 @@ ABFramework::TicTacToe::TicTacToe(const char* _pName, int _width, int _height)
 
 ABFramework::TicTacToe::~TicTacToe()
 {
-	//delete pScenePlayerTwo;
-	//pScenePlayerTwo = nullptr;
+
 }
 
 //********************************************************************************//
@@ -62,7 +61,6 @@ void ABFramework::TicTacToe::LoadContent()
 	// ----- Initialize Camera
 	glm::vec3 centerViewPos((float)pWindow->GetResolution().width / 2.0f, (float)pWindow->GetResolution().height / 2.0f, 0.0f);
 	Camera::Init(Point2D(pWindow->GetResolution().width, pWindow->GetResolution().height), centerViewPos);
-	//pScenePlayerTwo->SetupScene();
 	SceneManager::Init();
 
 }
@@ -80,19 +78,16 @@ void ABFramework::TicTacToe::CloseSystems()
 
 void ABFramework::TicTacToe::Update()
 {
-	Input::Process();
+	
 	SceneManager::Update();
-	//if (pScenePlayerTwo->GetGameState() != ScenePlayerTwo::GameState::NONE)
-	//	bRunning = false;
-	//else
-	//	pScenePlayerTwo->Update();
+	Input::Process();
+
 }
 
 void ABFramework::TicTacToe::Draw()
 {
 	Renderer::ClearScreen();
 	SceneManager::Draw();
-	//pScenePlayerTwo->Draw();
 }
 
 void ABFramework::TicTacToe::SubUpdateRoutine()

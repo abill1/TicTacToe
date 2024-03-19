@@ -59,6 +59,16 @@ void ABFramework::SceneManager::Draw()
 	privGetInstance()->pActiveScene->Draw();
 }
 
+ABFramework::SceneMainMenu* ABFramework::SceneManager::GetMainMenuScene()
+{
+	return privGetInstance()->pMainMenu;
+}
+
+ABFramework::ScenePlayerTwo* ABFramework::SceneManager::GetPlayerTwoScene()
+{
+	return privGetInstance()->pTwoPlayer;
+}
+
 //********************************************************************************//
 //                               Operators                                        //
 //********************************************************************************//

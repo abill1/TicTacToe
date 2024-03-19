@@ -14,6 +14,9 @@
 #include "../Controller/TwoPlayerController.h"
 #include "../CurrentPlayerIcon/CurrentPlayerIcon.h"
 #include "../Scenes/SceneManager.h"
+#include "../Engine/Core/Window/Window.h"
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
 
 ABFramework::ScenePlayerTwo::TurnPlayer ABFramework::ScenePlayerTwo::s_PlayerTurn = ABFramework::ScenePlayerTwo::TurnPlayer::ONE;
 ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::s_GameState = ABFramework::ScenePlayerTwo::GameState::NONE;
@@ -24,14 +27,13 @@ ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::s_GameState 
 //********************************************************************************//
 
 ABFramework::ScenePlayerTwo::ScenePlayerTwo()
-	:Scene(), pBoard(nullptr), pController(nullptr), pCurrentPlayerIcon(nullptr)
+	:Scene(), pBoard(nullptr), pCurrentPlayerIcon(nullptr)
 {
 	AssetManager::AddTexture(defaultTexture);
 	AssetManager::AddTexture(EmptySquare);
 	AssetManager::AddTexture(XSquare);
 	AssetManager::AddTexture(OSquare);
 	pBoard = new GameBoard();
-	pController = new TwoPlayerController(pBoard);
 	pCurrentPlayerIcon = new CurrentPlayerIcon();
 	pCurrentPlayerIcon->SetPosition(CurrentPlayerIcon::Player::ONE, Point3D(-400.0f, 400.0f, 0.0f));
 	pCurrentPlayerIcon->SetScale(CurrentPlayerIcon::Player::ONE, Scale(200.0f, 200.0f, 0.0f));
@@ -43,8 +45,6 @@ ABFramework::ScenePlayerTwo::ScenePlayerTwo()
 
 ABFramework::ScenePlayerTwo::~ScenePlayerTwo()
 {
-	delete pController;
-	pController = nullptr;
 	delete pCurrentPlayerIcon;
 	pCurrentPlayerIcon = nullptr;
 	delete pBoard;
@@ -65,7 +65,10 @@ ABFramework::ScenePlayerTwo::~ScenePlayerTwo()
 
 void ABFramework::ScenePlayerTwo::SetupScene()
 {
-	Input::BindAction(MouseCode::BUTTON_LEFT, &PlayerController::OnClickLeft, pController);
+	pBoard->ClearBoard();
+	ScenePlayerTwo::s_GameState = GameState::NONE;
+	ScenePlayerTwo::s_PlayerTurn = TurnPlayer::ONE;
+	Input::BindAction(&TwoPlayerController::GLFWOnLeftClick);
 }
 
 void ABFramework::ScenePlayerTwo::CleanUpScene()
@@ -146,6 +149,11 @@ ABFramework::ScenePlayerTwo::TurnPlayer ABFramework::ScenePlayerTwo::GetCurrentT
 ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::GetGameState()
 {
 	return ScenePlayerTwo::s_GameState;
+}
+
+ABFramework::GameBoard* ABFramework::ScenePlayerTwo::GetGameBoard()
+{
+	return pBoard;
 }
 
 //********************************************************************************//

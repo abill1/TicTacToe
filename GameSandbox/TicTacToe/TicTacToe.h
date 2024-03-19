@@ -36,7 +36,6 @@ namespace ABFramework
 		void SubUpdateRoutine() override;
 
 	private:
-		//class ScenePlayerTwo* pScenePlayerTwo;
 		t_handle m_GameBoard;
 
 	};

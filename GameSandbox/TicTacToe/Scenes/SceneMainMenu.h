@@ -29,11 +29,13 @@ namespace ABFramework
 		// ----- Getters ----- //
 
 		class Sprite* GetExitBtn() const;
+		class Sprite* GetTwoPlayerBtn() const;
 
 	private:
+		const AssetDef TwoPlayerBtn = { "..\\GameSandbox\\Assets\\Textures\\TwoPlayerBtn.tga","TwoPlayerBtn", true };
 		const AssetDef ExitBtn = { "..\\GameSandbox\\Assets\\Textures\\ExitBtn.tga","ExitBtn", true };
 		class Sprite* pExitBtn;
-		class MainMenuController* pController;
+		class Sprite* pTwoPlayerBtn;
 
 	};
 }
