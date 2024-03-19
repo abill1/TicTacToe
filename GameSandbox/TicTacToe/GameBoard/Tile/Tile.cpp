@@ -81,6 +81,11 @@ void ABFramework::Tile::SetState(State _state)
 
 }
 
+void ABFramework::Tile::SetTileEmpty()
+{
+	m_State = State::EMPTY;
+	pSprite->SetTexture(String::Hash(EMPTY_TEXTURE));
+}
 
 //********************************************************************************//
 //                                Getters                                         //

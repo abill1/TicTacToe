@@ -33,6 +33,7 @@ namespace ABFramework
 
 		virtual void Update() override;
 		virtual void Draw(const Matrix& _viewProj) override;
+		void ClearBoard();
 
 		// ----- Setters ----- //
 

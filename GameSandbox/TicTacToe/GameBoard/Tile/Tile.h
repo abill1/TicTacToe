@@ -44,6 +44,7 @@ namespace ABFramework
 		void SetScale(float _scale);
 		void SetState(State _state);
 		void SetTileData(Point2D _pos, float _weight);
+		void SetTileEmpty();
 
 		// ----- Getters ----- //
 

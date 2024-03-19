@@ -70,6 +70,14 @@ void ABFramework::GameBoard::Draw(const Matrix& _viewProj)
 }
 
 
+void ABFramework::GameBoard::ClearBoard()
+{
+	for (int i = 0; i < 9; i++)
+	{
+		pTiles[i].SetTileEmpty();
+	}
+}
+
 ABFramework::Tile* ABFramework::GameBoard::GetTile(int _index)
 {
 	CHECK_NULL(pTiles);
