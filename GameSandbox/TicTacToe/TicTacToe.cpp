@@ -27,7 +27,7 @@
 //********************************************************************************//
 
 ABFramework::TicTacToe::TicTacToe(const char* _pName, int _width, int _height)
-	:Game(_pName, _width, _height), m_GameBoard(0) //pScenePlayerTwo(new ScenePlayerTwo()),
+	:Game(_pName, _width, _height)
 {
 
 }
@@ -90,10 +90,6 @@ void ABFramework::TicTacToe::Draw()
 	SceneManager::Draw();
 }
 
-void ABFramework::TicTacToe::SubUpdateRoutine()
-{
-
-}
 
 //********************************************************************************//
 //                                Setters                                         //

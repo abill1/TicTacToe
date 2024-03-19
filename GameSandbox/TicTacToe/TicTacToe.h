@@ -31,12 +31,7 @@ namespace ABFramework
 
 		// ----- Getters ----- //
 		
-
-	protected:
-		void SubUpdateRoutine() override;
-
 	private:
-		t_handle m_GameBoard;
 
 	};
 }
