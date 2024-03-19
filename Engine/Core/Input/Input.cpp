@@ -1,8 +1,4 @@
 #include "Input.h"
-
-#include "../Engine/Core/Window/Window.h"
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
 #include "../Engine/Core/Collision/Collider/AABB.h"
 
 ABFramework::Input* ABFramework::Input::pInstance = nullptr;
@@ -12,13 +8,17 @@ ABFramework::Input* ABFramework::Input::pInstance = nullptr;
 //********************************************************************************//
 
 ABFramework::Input::Input()
-	:pFocus(nullptr), m_MouseInputMappings(), m_KeyInputMappings(), m_MouseState(), m_KeyState(), pMouseCollider(new AABB())
+	:pFocus(nullptr), m_MouseInputMappings(new InputMapping[(int)MouseCode::COUNT]()), m_CurrentMouseButtonState(new bool[(int)MouseCode::COUNT]), m_PreviousMoustButtonState(new bool[(int)MouseCode::COUNT]), m_KeyInputMappings(), m_KeyState(), pMouseCollider(new AABB())
 {
-
+	memset(m_CurrentMouseButtonState, 0, (int)MouseCode::COUNT);
+	memset(m_PreviousMoustButtonState, 0, (int)MouseCode::COUNT);
 }
 
 ABFramework::Input::~Input()
 {
+	delete[] m_MouseInputMappings;
+	delete[] m_CurrentMouseButtonState;
+	delete[] m_PreviousMoustButtonState;
 	pFocus = nullptr;
 	delete pMouseCollider;
 
@@ -57,17 +57,10 @@ void ABFramework::Input::Process()
 	while (kit != kEnd)
 	{
 		if (privGetInstance()->IsPressed((KeyCode)kit->first))
+		{			
 			privGetInstance()->CallAction((KeyCode)kit->first);
+		}
 		++kit;
-	}
-
-	std::unordered_map<int, int>::iterator mit = privGetInstance()->m_MouseState.begin();
-	std::unordered_map<int, int>::iterator mEnd = privGetInstance()->m_MouseState.end();
-	while (mit != mEnd)
-	{
-		if (privGetInstance()->IsPressed((MouseCode)mit->first))
-			privGetInstance()->CallAction((MouseCode)mit->first);
-		++mit;
 	}
 
 }
@@ -77,7 +70,9 @@ bool ABFramework::Input::IsPressed(ABFramework::KeyCode _key)
 	bool bPressed = false;
 	int state = glfwGetKey(privGetInstance()->pFocus->GetWindow(), Keyboard::ToInt(_key));
 	if (privGetInstance()->m_KeyState[(int)_key] != GLFW_PRESS && state == GLFW_PRESS)
+	{
 		bPressed = true;
+	}
 
 	privGetInstance()->m_KeyState[(int)_key] = state;
 
@@ -87,12 +82,6 @@ bool ABFramework::Input::IsPressed(ABFramework::KeyCode _key)
 bool ABFramework::Input::IsPressed(ABFramework::MouseCode _button)
 {
 	bool bPressed = false;
-	int state = glfwGetMouseButton(privGetInstance()->pFocus->GetWindow(), Mouse::ToInt(_button));
-	if (privGetInstance()->m_MouseState[(int)_button] != GLFW_PRESS && state == GLFW_PRESS)
-		bPressed = true;
-
-	privGetInstance()->m_MouseState[(int)_button] = state;
-
 	return bPressed;
 }
 
@@ -117,7 +106,11 @@ void ABFramework::Input::BindAction(MouseCode _code, t_inputAction _func, Player
 {
 	InputMapping tmp(_func, _pObj);
 	privGetInstance()->m_MouseInputMappings[(int)_code] = tmp;
-	privGetInstance()->m_MouseState[(int)_code] = GLFW_RELEASE;
+}
+
+void ABFramework::Input::BindAction(GLFWmousebuttonfun _glfwFunc)
+{
+	glfwSetMouseButtonCallback(privGetInstance()->pFocus->GetWindow(), _glfwFunc);
 }
 
 void ABFramework::Input::BindAction(KeyCode _code, t_inputAction _func, PlayerController* _pObj)
@@ -129,14 +122,13 @@ void ABFramework::Input::BindAction(KeyCode _code, t_inputAction _func, PlayerCo
 
 void ABFramework::Input::UnbindAction(MouseCode _code)
 {
-	privGetInstance()->m_KeyInputMappings.erase((int)_code);
-	privGetInstance()->m_KeyState.erase((int)_code);
+	glfwSetMouseButtonCallback(privGetInstance()->pFocus->GetWindow(), nullptr);
 }
 
 void ABFramework::Input::UnbindAction(KeyCode _code)
 {
-	privGetInstance()->m_KeyInputMappings.erase((int)_code);
-	privGetInstance()->m_KeyState.erase((int)_code);
+	privGetInstance()->m_KeyInputMappings[(int)_code] = {};
+	privGetInstance()->m_KeyState[(int)_code] = false;
 }
 
 void ABFramework::Input::CallAction(MouseCode _code)

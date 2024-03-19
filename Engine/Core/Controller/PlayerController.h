@@ -2,6 +2,8 @@
 #ifndef ABFRAMEWORK_PLAYERCONTROLLER_H
 #define ABFRAMEWORK_PLAYERCONTROLLER_H
 
+struct GLFWwindow;
+
 namespace ABFramework
 {
 
@@ -18,6 +20,7 @@ namespace ABFramework
 
 		// ***** Mouse
 
+		virtual void GLFWOnLeftClick(GLFWwindow* window, int button, int action, int mods) {};
 		virtual void OnClickLeft() {}
 		virtual void OnClickRight() {}
 

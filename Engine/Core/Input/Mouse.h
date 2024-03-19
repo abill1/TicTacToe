@@ -16,7 +16,8 @@ namespace ABFramework
 		BUTTON_8 = 7,
 		BUTTON_LEFT = BUTTON_1,
 		BUTTON_RIGHT = BUTTON_2,
-		BUTTON_MIDDLE = BUTTON_3
+		BUTTON_MIDDLE = BUTTON_3,
+		COUNT = BUTTON_8
 	};
 
 	struct CursorCoord

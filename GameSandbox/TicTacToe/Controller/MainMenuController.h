@@ -4,30 +4,14 @@
 
 #include "../Engine/Core/Controller/PlayerController.h"
 
+struct GLFWwindow;
+
 namespace ABFramework
 {
-	class MainMenuController : public PlayerController
+	class MainMenuController
 	{
 	public:
-		// ----- Constructor / Destructor ----- //
-
-		MainMenuController() = delete;
-		MainMenuController(class SceneMainMenu* _pScene);
-		virtual ~MainMenuController();
-
-		// ----- Operators ----- //
-
-		// ------ Utility ----- //
-
-		void OnClickLeft() override;
-
-		// ----- Setters ----- //
-
-		// ----- Getters ----- //
-
-	private:
-		class SceneMainMenu* pMainMenuScene;
-
+		static void OnClickLeft(GLFWwindow* window, int button, int action, int mods);
 	};
 }
 

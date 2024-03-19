@@ -70,6 +70,7 @@ namespace ABFramework
 		KEY_BACKSPACE = 259,
 		KEY_INSERT = 260,
 		KEY_DELETE = 261,
+		COUNT = KEY_DELETE
 	};
 
 	class Keyboard

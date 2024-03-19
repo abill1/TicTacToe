@@ -14,7 +14,7 @@ namespace ABFramework
 
 		InputMapping() = default;
 		InputMapping(t_inputAction _func, PlayerController* _obj) : function(_func), pObj(_obj) {}
-		~InputMapping() { pObj = nullptr; }
+		~InputMapping() { function = nullptr; pObj = nullptr; }
 
 		void operator()()
 		{

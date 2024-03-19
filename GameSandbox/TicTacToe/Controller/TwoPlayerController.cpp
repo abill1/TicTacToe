@@ -7,53 +7,25 @@
 #include "../Engine/Core/Collision/Collider/AABB.h"
 #include "../GameSandbox/TicTacToe/TicTacToe.h"
 #include "../Scenes/ScenePlayerTwo.h"
-
-//********************************************************************************//
-//                        Constructors / Destructor                               //
-//********************************************************************************//
-
-ABFramework::TwoPlayerController::TwoPlayerController(ABFramework::GameBoard* _pBoard)
-	:pBoard(_pBoard)
-{
-
-}
-
-
-ABFramework::TwoPlayerController::~TwoPlayerController()
-{
-	pBoard = nullptr;
-
-}
-
-//********************************************************************************//
-//                               Operators                                        //
-//********************************************************************************//
-
-
+#include "../GameBoard/GameBoard.h"
+#include "../Scenes/SceneManager.h"
+#include "../Engine/Core/Window/Window.h"
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
 
 
 //********************************************************************************//
 //                                Utility                                         //
 //********************************************************************************//
 
-void ABFramework::TwoPlayerController::OnClickLeft()
+void ABFramework::TwoPlayerController::GLFWOnLeftClick(GLFWwindow* window, int button, int action, int mods)
 {
-	privClickLeftPlayerOne();
-	privClickLeftPlayerTwo();
-
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		privClickLeftPlayerOne();
+		privClickLeftPlayerTwo();
+	}
 }
-
-
-//********************************************************************************//
-//                                Setters                                         //
-//********************************************************************************//
-
-
-
-//********************************************************************************//
-//                                Getters                                         //
-//********************************************************************************//
-
 
 
 //********************************************************************************//
@@ -62,6 +34,7 @@ void ABFramework::TwoPlayerController::OnClickLeft()
 
 void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
 {
+	GameBoard* pBoard = SceneManager::GetPlayerTwoScene()->GetGameBoard();
 	if (ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::ONE)
 	{
 		for (int i = 0; i < pBoard->GetBoardSize(); i++)
@@ -80,6 +53,7 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
 
 void ABFramework::TwoPlayerController::privClickLeftPlayerTwo()
 {
+	GameBoard* pBoard = SceneManager::GetPlayerTwoScene()->GetGameBoard();
 	if (ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::TWO)
 	{
 		for (int i = 0; i < pBoard->GetBoardSize(); i++)

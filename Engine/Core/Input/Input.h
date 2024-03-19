@@ -6,6 +6,10 @@
 #include "Mouse.h"
 #include "InputMapping.h"
 
+#include "../Engine/Core/Window/Window.h"
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+
 namespace ABFramework
 {
 	class Input
@@ -31,6 +35,8 @@ namespace ABFramework
 		static bool IsPressed(MouseCode _button);
 		static CursorCoord GetCursorPosition();
 		static CursorCoord GetTrueCursorPosition();
+
+		static void BindAction(GLFWmousebuttonfun _glfwFunc);
 		static void BindAction(MouseCode _code, t_inputAction _func, PlayerController* _pObj);
 		static void BindAction(KeyCode _code, t_inputAction _func, PlayerController* _pObj);
 		static void UnbindAction(MouseCode _code);
@@ -53,9 +59,10 @@ namespace ABFramework
 		static Input* pInstance;
 
 		class Window* pFocus;
-		std::unordered_map<int, InputMapping> m_MouseInputMappings;
+		InputMapping* m_MouseInputMappings;
+		bool* m_CurrentMouseButtonState;
+		bool* m_PreviousMoustButtonState;
 		std::unordered_map<int, InputMapping> m_KeyInputMappings;
-		std::unordered_map<int, int> m_MouseState;
 		std::unordered_map<int, int> m_KeyState;
 		class AABB* pMouseCollider;
 

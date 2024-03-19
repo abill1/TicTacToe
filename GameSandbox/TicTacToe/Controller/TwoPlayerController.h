@@ -11,26 +11,22 @@ namespace ABFramework
 	public:
 		// ----- Constructor / Destructor ----- //
 
-		TwoPlayerController() = delete;
-		TwoPlayerController(class GameBoard* _pBoard);
-		~TwoPlayerController();
-
 		// ----- Operators ----- //
 
 		// ------ Utility ----- //
 
-		void OnClickLeft() override;
+		static void GLFWOnLeftClick(struct GLFWwindow* window, int button, int action, int mods);
+
 
 		// ----- Setters ----- //
 
 		// ----- Getters ----- //
 
 	private:
-		void privClickLeftPlayerOne();
-		void privClickLeftPlayerTwo();
+		static void privClickLeftPlayerOne();
+		static void privClickLeftPlayerTwo();
 
 	private:
-		class GameBoard* pBoard;
 
 	};
 }
