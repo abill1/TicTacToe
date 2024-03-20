@@ -63,8 +63,9 @@ void ABFramework::Tile::SetScale(float _scale)
 	pSprite->SetScale(_scale);
 }
 
-void ABFramework::Tile::SetState(State _state)
+bool ABFramework::Tile::SetState(State _state)
 {
+	bool bSet = false;
 	if (m_State == State::EMPTY)
 	{
 		if (_state == State::X)
@@ -77,8 +78,11 @@ void ABFramework::Tile::SetState(State _state)
 			m_State = State::O;
 			pSprite->SetTexture(String::Hash(O_TEXTURE));
 		}
+		bSet = true;
+
 	}
 
+	return bSet;
 }
 
 void ABFramework::Tile::SetTileEmpty()

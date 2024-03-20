@@ -3,6 +3,7 @@
 #define GAMESANDBOX_TIC_TAC_TOE_GAME_BOARD_H
 
 #include "../Engine/Core/GameObject/GameObject.h"
+#include "Tile/Tile.h"
 
 namespace ABFramework
 {
@@ -43,18 +44,23 @@ namespace ABFramework
 		virtual void SetTexture(class Texture* const _pTexture) override {}
 		virtual void SetTexture(size_t _handle)override {}
 		virtual void SetMesh(class Mesh* _pMesh) override {}
+		void MarkTile(GameBoard::Position _index, Tile::State _piece);
 
 		// ----- Getters ----- //
 
 		virtual class AABB* GetCollider() const override { return nullptr; }
-		class Tile* GetTile(int _index);
-		class Tile* GetTile(int _row, int _col);
-		class Tile* GetTile(GameBoard::Position _index);
+		Tile* GetTile(int _index);
+		Tile* GetTile(int _row, int _col);
+		Tile* GetTile(GameBoard::Position _index);
+		TileData* GetTileData();
+		bool IsFull();
 		inline const int GetBoardSize() const { return BOARD_SIZE; }
 
 	private:
-		class Tile* pTiles;
 		const int BOARD_SIZE = 9;
+		Tile* pTiles;
+		TileData* pData;
+		int m_CurrentEmptyTiles;
 	};
 }
 

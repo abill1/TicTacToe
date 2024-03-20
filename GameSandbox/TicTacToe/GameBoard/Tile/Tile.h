@@ -11,8 +11,9 @@ namespace ABFramework
 
 	struct TileData
 	{
-		Point2D m_boardPosition;
-		float m_weight;
+		int m_boardPosition;
+		Tile::State m_State;
+		int m_weight;
 	};
 
 	class Tile
@@ -42,7 +43,7 @@ namespace ABFramework
 
 		void SetPosition(const Point3D& _position);
 		void SetScale(float _scale);
-		void SetState(State _state);
+		bool SetState(State _state);
 		void SetTileData(Point2D _pos, float _weight);
 		void SetTileEmpty();
 

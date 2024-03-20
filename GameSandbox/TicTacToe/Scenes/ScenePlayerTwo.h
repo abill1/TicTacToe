@@ -10,6 +10,12 @@ namespace ABFramework
 	class ScenePlayerTwo : public Scene 
 	{
 	public:
+		enum class AI_State
+		{
+			INACTIVE,
+			ACTIVE
+		};
+
 		enum class TurnPlayer : bool
 		{
 			ONE = true,
@@ -49,6 +55,7 @@ namespace ABFramework
 
 		static TurnPlayer GetCurrentTurn();
 		static GameState GetGameState();
+		static AI_State GetAIState();
 		class GameBoard* GetGameBoard();
 		class Sprite* GetMainMenuBtn();
 
@@ -62,6 +69,7 @@ namespace ABFramework
 	private:
 		static TurnPlayer s_PlayerTurn;
 		static GameState s_GameState;
+		static AI_State s_AIState;
 		const AssetDef defaultTexture = { "..\\Engine\\Assets\\DefaultTexture.tga","DefaultAsset" };
 		const AssetDef EmptySquare = { "..\\GameSandbox\\Assets\\Textures\\Empty.tga","Empty" };
 		const AssetDef XSquare = { "..\\GameSandbox\\Assets\\Textures\\xsquare.tga","XSquare" };

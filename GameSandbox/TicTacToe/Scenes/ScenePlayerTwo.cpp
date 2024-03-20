@@ -18,7 +18,7 @@
 
 ABFramework::ScenePlayerTwo::TurnPlayer ABFramework::ScenePlayerTwo::s_PlayerTurn = ABFramework::ScenePlayerTwo::TurnPlayer::ONE;
 ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::s_GameState = ABFramework::ScenePlayerTwo::GameState::NONE;
-
+ABFramework::ScenePlayerTwo::AI_State ABFramework::ScenePlayerTwo::s_AIState = ABFramework::ScenePlayerTwo::AI_State::INACTIVE;
 
 //********************************************************************************//
 //                        Constructors / Destructor                               //
@@ -173,6 +173,11 @@ ABFramework::ScenePlayerTwo::TurnPlayer ABFramework::ScenePlayerTwo::GetCurrentT
 ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::GetGameState()
 {
 	return ScenePlayerTwo::s_GameState;
+}
+
+ABFramework::ScenePlayerTwo::AI_State ABFramework::ScenePlayerTwo::GetAIState()
+{
+	return ScenePlayerTwo::s_AIState;
 }
 
 ABFramework::GameBoard* ABFramework::ScenePlayerTwo::GetGameBoard()
