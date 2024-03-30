@@ -18,13 +18,26 @@ namespace ABFramework
 		// ------ Utility ----- //
 
 		void TakeAction(class GameBoard* _pBoard);
-		struct TileData MiniMax(class GameBoard* _pBoard, bool _bAITurn, int _depth);
+		struct TileData MiniMax(struct TileData* _pData, bool _bAITurn, int _depth);
 		int Max(int _currentMax, int _compare);
 		int Min(int _currentMax, int _compare);
 
 		// ----- Setters ----- //
 
 		// ----- Getters ----- //
+
+	private:
+		bool privCheckForWin();
+		bool privTestRowWin();
+		bool privTestColWin();
+		bool privTestDiagonalWin();
+		bool privTestDraw();
+
+	private:
+		const int HUMAN_WIN = -1;
+		const int AI_WIN = 1;
+		const int DRAW = 0;
+		struct TileData* pData;
 
 	};
 }
