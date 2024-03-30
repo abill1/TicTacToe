@@ -73,8 +73,7 @@ ABFramework::t_handle ABFramework::ManagedObjects<Obj>::Add(const class String& 
 	t_handle handle = _name.GetHash();
 	if (m_Objects.find(handle) == m_Objects.end())
 		m_Objects[handle] = new Child();
-	else
-		handle = 0;
+	
 
 	return handle;
 }
