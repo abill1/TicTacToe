@@ -1,4 +1,5 @@
-#include "ScenePlayerTwo.h"
+#include "ScenePlayerOne.h"
+
 #include "../Engine/Core/GameObject/GameObjectManager.h"
 #include "../Engine/Core/AssetManager/AssetManager.h"
 #include "../Engine/Renderer/OpenGL/Texture/Texture.h"
@@ -11,22 +12,22 @@
 #include "../GameBoard/GameBoard.h"
 #include "../Engine/Core/Input/Input.h"
 #include "../GameBoard/Tile/Tile.h"
-#include "../Controller/TwoPlayerController.h"
+#include "../Controller/OnePlayerController.h"
 #include "../CurrentPlayerIcon/CurrentPlayerIcon.h"
 #include "../Scenes/SceneManager.h"
 #include "../Engine/Core/Window/Window.h"
 #include "../AI/AIPlayer.h"
 
-ABFramework::ScenePlayerTwo::TurnPlayer ABFramework::ScenePlayerTwo::s_PlayerTurn = ABFramework::ScenePlayerTwo::TurnPlayer::ONE;
-ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::s_GameState = ABFramework::ScenePlayerTwo::GameState::NONE;
-ABFramework::ScenePlayerTwo::AI_State ABFramework::ScenePlayerTwo::s_AIState = ABFramework::ScenePlayerTwo::AI_State::INACTIVE;
+ABFramework::ScenePlayerOne::TurnPlayer ABFramework::ScenePlayerOne::s_PlayerTurn = ABFramework::ScenePlayerOne::TurnPlayer::ONE;
+ABFramework::ScenePlayerOne::GameState ABFramework::ScenePlayerOne::s_GameState = ABFramework::ScenePlayerOne::GameState::NONE;
+ABFramework::ScenePlayerOne::AI_State ABFramework::ScenePlayerOne::s_AIState = ABFramework::ScenePlayerOne::AI_State::INACTIVE;
 
 //********************************************************************************//
 //                        Constructors / Destructor                               //
 //********************************************************************************//
 
-ABFramework::ScenePlayerTwo::ScenePlayerTwo()
-	:Scene(), pBoard(nullptr), pCurrentPlayerIcon(nullptr), pMainMenuBtn(nullptr), 
+ABFramework::ScenePlayerOne::ScenePlayerOne()
+	:Scene(), pBoard(nullptr), pCurrentPlayerIcon(nullptr), pMainMenuBtn(nullptr),
 	pGameResult(nullptr), h_Draw(0), h_PlayerOneWin(0), h_PlayerTwoWin(0), pAIplayer(new AIPlayer())
 {
 	AssetManager::AddTexture(defaultTexture);
@@ -39,7 +40,7 @@ ABFramework::ScenePlayerTwo::ScenePlayerTwo()
 	pCurrentPlayerIcon->SetScale(CurrentPlayerIcon::Player::ONE, Scale(200.0f, 200.0f, 0.0f));
 	pCurrentPlayerIcon->SetPosition(CurrentPlayerIcon::Player::TWO, Point3D(400.0f, 400.0f, 0.0f));
 	pCurrentPlayerIcon->SetScale(CurrentPlayerIcon::Player::TWO, Scale(200.0f, 200.0f, 0.0f));
-	
+
 	Square_Mesh* pMesh = AssetManager::GetSquareMesh();
 	t_handle h_MainMenuBtn = AssetManager::AddTexture(MainMenuBtn);
 	pMainMenuBtn = new Sprite();
@@ -60,7 +61,7 @@ ABFramework::ScenePlayerTwo::ScenePlayerTwo()
 }
 
 
-ABFramework::ScenePlayerTwo::~ScenePlayerTwo()
+ABFramework::ScenePlayerOne::~ScenePlayerOne()
 {
 	delete pAIplayer;
 	pAIplayer = nullptr;
@@ -86,39 +87,37 @@ ABFramework::ScenePlayerTwo::~ScenePlayerTwo()
 //                                Utility                                         //
 //********************************************************************************//
 
-void ABFramework::ScenePlayerTwo::SetupScene()
+void ABFramework::ScenePlayerOne::SetupScene()
 {
 	pBoard->ClearBoard();
-	ScenePlayerTwo::s_GameState = GameState::NONE;
-	ScenePlayerTwo::s_PlayerTurn = TurnPlayer::ONE;
-	ScenePlayerTwo::s_AIState = AI_State::INACTIVE;
-	Input::BindAction(&TwoPlayerController::GLFWOnLeftClick);
+	ScenePlayerOne::s_GameState = GameState::NONE;
+	ScenePlayerOne::s_PlayerTurn = TurnPlayer::ONE;
+	ScenePlayerOne::s_AIState = AI_State::ACTIVE;
+	Input::BindAction(&OnePlayerController::GLFWOnLeftClick);
 }
 
-void ABFramework::ScenePlayerTwo::CleanUpScene()
+void ABFramework::ScenePlayerOne::CleanUpScene()
 {
-	ScenePlayerTwo::s_AIState = AI_State::INACTIVE;
+	ScenePlayerOne::s_AIState = AI_State::INACTIVE;
 	Input::UnbindAction(MouseCode::BUTTON_LEFT);
 }
 
-void ABFramework::ScenePlayerTwo::Update()
+void ABFramework::ScenePlayerOne::Update()
 {
-	
-
 	if (UpdateGameState() != GameState::NONE)
 	{
-		switch (ScenePlayerTwo::s_GameState)
+		switch (ScenePlayerOne::s_GameState)
 		{
 		case GameState::WIN_PLAYER_ONE:
-			ScenePlayerTwo::s_GameState = GameState::WIN_PLAYER_ONE;
+			ScenePlayerOne::s_GameState = GameState::WIN_PLAYER_ONE;
 			pGameResult->SetTexture(h_PlayerOneWin);
 			break;
 		case GameState::WIN_PLAYER_TWO:
-			ScenePlayerTwo::s_GameState = GameState::WIN_PLAYER_TWO;
+			ScenePlayerOne::s_GameState = GameState::WIN_PLAYER_TWO;
 			pGameResult->SetTexture(h_PlayerTwoWin);
 			break;
 		case GameState::DRAW:
-			ScenePlayerTwo::s_GameState = GameState::DRAW;
+			ScenePlayerOne::s_GameState = GameState::DRAW;
 			pGameResult->SetTexture(h_Draw);
 			break;
 		case GameState::NONE:
@@ -129,17 +128,17 @@ void ABFramework::ScenePlayerTwo::Update()
 		pMainMenuBtn->Update();
 		pGameResult->Update();
 	}
-	
-	if (ScenePlayerTwo::s_PlayerTurn == TurnPlayer::TWO && ScenePlayerTwo::s_AIState == AI_State::ACTIVE)
+
+	if (ScenePlayerOne::s_PlayerTurn == TurnPlayer::TWO && ScenePlayerOne::s_AIState == AI_State::ACTIVE)
 	{
 		pAIplayer->TakeAction(pBoard);
 	}
 	pBoard->Update();
 	pCurrentPlayerIcon->Update();
-	
+
 }
 
-void ABFramework::ScenePlayerTwo::Draw()
+void ABFramework::ScenePlayerOne::Draw()
 {
 	if (UpdateGameState() != GameState::NONE)
 	{
@@ -151,64 +150,64 @@ void ABFramework::ScenePlayerTwo::Draw()
 
 }
 
-ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::UpdateGameState()
+ABFramework::ScenePlayerOne::GameState ABFramework::ScenePlayerOne::UpdateGameState()
 {
 	privTestRowWin();
 	privTestColWin();
 	privTestDiagonalWin();
 	privTestDraw();
 
-	return ScenePlayerTwo::s_GameState;
+	return ScenePlayerOne::s_GameState;
 }
 
 //********************************************************************************//
 //                                Setters                                         //
 //********************************************************************************//
 
-void ABFramework::ScenePlayerTwo::NextPlayer()
+void ABFramework::ScenePlayerOne::NextPlayer()
 {
-	bool state = (bool)ScenePlayerTwo::s_PlayerTurn;
+	bool state = (bool)ScenePlayerOne::s_PlayerTurn;
 	state = !state;
-	ScenePlayerTwo::s_PlayerTurn = (TurnPlayer)state;
+	ScenePlayerOne::s_PlayerTurn = (TurnPlayer)state;
 
 }
 
-void ABFramework::ScenePlayerTwo::ActivateAI()
+void ABFramework::ScenePlayerOne::ActivateAI()
 {
-	ScenePlayerTwo::s_AIState = AI_State::ACTIVE;
+	ScenePlayerOne::s_AIState = AI_State::ACTIVE;
 }
 
-void ABFramework::ScenePlayerTwo::DisableAI()
+void ABFramework::ScenePlayerOne::DisableAI()
 {
-	ScenePlayerTwo::s_AIState = AI_State::INACTIVE;
+	ScenePlayerOne::s_AIState = AI_State::INACTIVE;
 }
 
 //********************************************************************************//
 //                                Getters                                         //
 //********************************************************************************//
 
-ABFramework::ScenePlayerTwo::TurnPlayer ABFramework::ScenePlayerTwo::GetCurrentTurn()
+ABFramework::ScenePlayerOne::TurnPlayer ABFramework::ScenePlayerOne::GetCurrentTurn()
 {
-	return ScenePlayerTwo::s_PlayerTurn;
+	return ScenePlayerOne::s_PlayerTurn;
 }
 
-ABFramework::ScenePlayerTwo::GameState ABFramework::ScenePlayerTwo::GetGameState()
+ABFramework::ScenePlayerOne::GameState ABFramework::ScenePlayerOne::GetGameState()
 {
-	return ScenePlayerTwo::s_GameState;
+	return ScenePlayerOne::s_GameState;
 }
 
 
-ABFramework::ScenePlayerTwo::AI_State ABFramework::ScenePlayerTwo::GetAIState()
+ABFramework::ScenePlayerOne::AI_State ABFramework::ScenePlayerOne::GetAIState()
 {
-	return ScenePlayerTwo::s_AIState;
+	return ScenePlayerOne::s_AIState;
 }
 
-ABFramework::GameBoard* ABFramework::ScenePlayerTwo::GetGameBoard()
+ABFramework::GameBoard* ABFramework::ScenePlayerOne::GetGameBoard()
 {
 	return pBoard;
 }
 
-ABFramework::Sprite* ABFramework::ScenePlayerTwo::GetMainMenuBtn()
+ABFramework::Sprite* ABFramework::ScenePlayerOne::GetMainMenuBtn()
 {
 	return pMainMenuBtn;
 }
@@ -217,7 +216,7 @@ ABFramework::Sprite* ABFramework::ScenePlayerTwo::GetMainMenuBtn()
 //                             Private Helpers                                    //
 //********************************************************************************//
 
-bool ABFramework::ScenePlayerTwo::privTestRowWin()
+bool ABFramework::ScenePlayerOne::privTestRowWin()
 {
 	bool bOver = false;
 	CHECK_NULL(pBoard);
@@ -237,7 +236,7 @@ bool ABFramework::ScenePlayerTwo::privTestRowWin()
 	return bOver;
 }
 
-bool ABFramework::ScenePlayerTwo::privTestColWin()
+bool ABFramework::ScenePlayerOne::privTestColWin()
 {
 	bool bOver = false;
 	CHECK_NULL(pBoard);
@@ -257,7 +256,7 @@ bool ABFramework::ScenePlayerTwo::privTestColWin()
 	return bOver;
 }
 
-bool ABFramework::ScenePlayerTwo::privTestDiagonalWin()
+bool ABFramework::ScenePlayerOne::privTestDiagonalWin()
 {
 	bool bOver = false;
 	CHECK_NULL(pBoard);
@@ -280,12 +279,12 @@ bool ABFramework::ScenePlayerTwo::privTestDiagonalWin()
 	return bOver;
 }
 
-bool ABFramework::ScenePlayerTwo::privTestDraw()
+bool ABFramework::ScenePlayerOne::privTestDraw()
 {
 	bool bOver = false;
 	CHECK_NULL(pBoard);
 
-	if (ScenePlayerTwo::s_GameState == GameState::NONE)
+	if (ScenePlayerOne::s_GameState == GameState::NONE)
 	{
 		bOver = true;
 		for (int i = 0; i < pBoard->GetBoardSize(); i++)
@@ -300,7 +299,7 @@ bool ABFramework::ScenePlayerTwo::privTestDraw()
 
 		if (bOver)
 		{
-			ScenePlayerTwo::s_GameState = GameState::DRAW;
+			ScenePlayerOne::s_GameState = GameState::DRAW;
 		}
 
 	}
@@ -308,16 +307,16 @@ bool ABFramework::ScenePlayerTwo::privTestDraw()
 	return bOver;
 }
 
-void ABFramework::ScenePlayerTwo::privSetState(int _state)
+void ABFramework::ScenePlayerOne::privSetState(int _state)
 {
 	Tile::State state = (Tile::State)_state;
 	switch (state)
 	{
 	case Tile::State::X:
-		ScenePlayerTwo::s_GameState = ScenePlayerTwo::GameState::WIN_PLAYER_ONE;
+		ScenePlayerOne::s_GameState = ScenePlayerOne::GameState::WIN_PLAYER_ONE;
 		break;
 	case Tile::State::O:
-		ScenePlayerTwo::s_GameState = ScenePlayerTwo::GameState::WIN_PLAYER_TWO;
+		ScenePlayerOne::s_GameState = ScenePlayerOne::GameState::WIN_PLAYER_TWO;
 		break;
 	case Tile::State::EMPTY:
 	default:
@@ -325,5 +324,3 @@ void ABFramework::ScenePlayerTwo::privSetState(int _state)
 	}
 
 }
-
-

@@ -1,12 +1,12 @@
 
-#include "TwoPlayerController.h"
+#include "OnePlayerController.h"
 #include "../GameBoard/GameBoard.h"
 #include "../Engine/Core/Collision/Collision.h"
 #include "../Engine/Core/Input/Input.h"
 #include "../GameBoard/Tile/Tile.h"
 #include "../Engine/Core/Collision/Collider/AABB.h"
 #include "../GameSandbox/TicTacToe/TicTacToe.h"
-#include "../Scenes/ScenePlayerTwo.h"
+#include "../Scenes/ScenePlayerOne.h"
 #include "../GameBoard/GameBoard.h"
 #include "../Scenes/SceneManager.h"
 #include "../Engine/Core/GameObject/Sprite/Sprite.h"
@@ -19,19 +19,19 @@
 //                                Utility                                         //
 //********************************************************************************//
 
-void ABFramework::TwoPlayerController::GLFWOnLeftClick(GLFWwindow* window, int button, int action, int mods)
+void ABFramework::OnePlayerController::GLFWOnLeftClick(GLFWwindow* window, int button, int action, int mods)
 {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
 		privClickLeftPlayerOne();
 		privClickLeftPlayerTwo();
-		if (ScenePlayerTwo::GetGameState() != ScenePlayerTwo::GameState::NONE)
+		if (ScenePlayerOne::GetGameState() != ScenePlayerOne::GameState::NONE)
 		{
-			if (Collision::Check(SceneManager::GetPlayerTwoScene()->GetMainMenuBtn()->GetCollider(), Input::GetMouseCollider()))
+			if (Collision::Check(SceneManager::GetPlayerOneScene()->GetMainMenuBtn()->GetCollider(), Input::GetMouseCollider()))
 			{
 				SceneManager::SwitchScene(SceneManager::SceneName::MAIN_MENU);
 			}
-			
+
 		}
 	}
 }
@@ -41,11 +41,11 @@ void ABFramework::TwoPlayerController::GLFWOnLeftClick(GLFWwindow* window, int b
 //                             Private Helpers                                    //
 //********************************************************************************//
 
-void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
+void ABFramework::OnePlayerController::privClickLeftPlayerOne()
 {
-	if (ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::ONE)
+	if (ScenePlayerOne::GetCurrentTurn() == ScenePlayerOne::TurnPlayer::ONE)
 	{
-		GameBoard* pBoard = SceneManager::GetPlayerTwoScene()->GetGameBoard();
+		GameBoard* pBoard = SceneManager::GetPlayerOneScene()->GetGameBoard();
 		for (int i = 0; i < pBoard->GetBoardSize(); i++)
 		{
 			if (pBoard->GetTile(i)->GetState() == Tile::State::EMPTY && Collision::Check(pBoard->GetTile(i)->GetCollider(), Input::GetMouseCollider()))
@@ -54,20 +54,20 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
 				printf("[Mouse Coord] X: %f, Y: %f\n", coord.x, coord.y);
 				pBoard->MarkTile((GameBoard::Position)i, Tile::State::X);
 				//pBoard->GetTile(i)->SetState(Tile::State::X);
-				ScenePlayerTwo::NextPlayer();
+				ScenePlayerOne::NextPlayer();
 				break;
 			}
 		}
 	}
 }
 
-void ABFramework::TwoPlayerController::privClickLeftPlayerTwo()
+void ABFramework::OnePlayerController::privClickLeftPlayerTwo()
 {
-	if (ScenePlayerTwo::GetAIState() == ScenePlayerTwo::AI_State::INACTIVE)
+	if (ScenePlayerOne::GetAIState() == ScenePlayerOne::AI_State::INACTIVE)
 	{
-		if (ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::TWO)
+		if (ScenePlayerOne::GetCurrentTurn() == ScenePlayerOne::TurnPlayer::TWO)
 		{
-			GameBoard* pBoard = SceneManager::GetPlayerTwoScene()->GetGameBoard();
+			GameBoard* pBoard = SceneManager::GetPlayerOneScene()->GetGameBoard();
 			for (int i = 0; i < pBoard->GetBoardSize(); i++)
 			{
 				if (pBoard->GetTile(i)->GetState() == Tile::State::EMPTY && Collision::Check(pBoard->GetTile(i)->GetCollider(), Input::GetMouseCollider()))
@@ -75,7 +75,7 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerTwo()
 					CursorCoord coord = Input::GetCursorPosition();
 					printf("[Mouse Coord] X: %f, Y: %f\n", coord.x, coord.y);
 					pBoard->MarkTile((GameBoard::Position)i, Tile::State::O);
-					ScenePlayerTwo::NextPlayer();
+					ScenePlayerOne::NextPlayer();
 					break;
 				}
 			}

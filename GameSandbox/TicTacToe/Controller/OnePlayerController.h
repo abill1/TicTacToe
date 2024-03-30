@@ -1,12 +1,12 @@
 
-#ifndef GAMESANDBOX_TIC_TAC_TOE_PLAYERTWOCONTROLLER_H
-#define GAMESANDBOX_TIC_TAC_TOE_PLAYERTWOCONTROLLER_H
+#ifndef GAMESANDBOX_TIC_TAC_TOE_PLAYERONECONTROLLER_H
+#define GAMESANDBOX_TIC_TAC_TOE_PLAYERONECONTROLLER_H
 
 #include "../Engine/Core/Controller/PlayerController.h"
 
 namespace ABFramework
 {
-	class TwoPlayerController : public PlayerController
+	class OnePlayerController : public PlayerController
 	{
 	public:
 		// ----- Constructor / Destructor ----- //
@@ -31,6 +31,6 @@ namespace ABFramework
 	};
 }
 
-#endif // !GAMESANDBOX_TIC_TAC_TOE_PLAYERTWOCONTROLLER_H
+#endif // !GAMESANDBOX_TIC_TAC_TOE_PLAYERONECONTROLLER_H
 
 

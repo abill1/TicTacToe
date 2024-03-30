@@ -17,7 +17,7 @@
 //********************************************************************************//
 
 ABFramework::SceneMainMenu::SceneMainMenu()
-	:Scene(), pExitBtn(new Sprite()), pTwoPlayerBtn(new Sprite())
+	:Scene(), pExitBtn(new Sprite()), pTwoPlayerBtn(new Sprite()), pOnePlayerBtn(new Sprite())
 {
 	t_handle h_exitBtn = AssetManager::AddTexture(ExitBtn);
 	Square_Mesh* pMesh = AssetManager::GetSquareMesh();
@@ -32,10 +32,18 @@ ABFramework::SceneMainMenu::SceneMainMenu()
 	pTwoPlayerBtn->SetPosition(Point3D(0.0f, 0.0f, 0.0f));
 	pTwoPlayerBtn->SetScale(Scale(640.0f, 48.0f, 0.0f));
 
+	t_handle h_onePlayerBtn = AssetManager::AddTexture(OnePlayerBtn);
+	pOnePlayerBtn->SetMesh(pMesh);
+	pOnePlayerBtn->SetTexture(AssetManager::FindTexture(h_onePlayerBtn));
+	pOnePlayerBtn->SetPosition(Point3D(0.0f, 100.0f, 0.0f));
+	pOnePlayerBtn->SetScale(Scale(640.0f, 48.0f, 0.0f));
+
 }
 
 ABFramework::SceneMainMenu::~SceneMainMenu()
 {
+	delete pOnePlayerBtn;
+	pOnePlayerBtn = nullptr;
 	delete pTwoPlayerBtn;
 	pTwoPlayerBtn = nullptr;
 	delete pExitBtn;
@@ -67,12 +75,14 @@ void ABFramework::SceneMainMenu::CleanUpScene()
 
 void ABFramework::SceneMainMenu::Update()
 {
+	pOnePlayerBtn->Update();
 	pTwoPlayerBtn->Update();
 	pExitBtn->Update();
 }
 
 void ABFramework::SceneMainMenu::Draw()
 {
+	pOnePlayerBtn->Draw(Camera::GetViewProjectionMatrix());
 	pTwoPlayerBtn->Draw(Camera::GetViewProjectionMatrix());
 	pExitBtn->Draw(Camera::GetViewProjectionMatrix());
 }
@@ -96,6 +106,11 @@ ABFramework::Sprite* ABFramework::SceneMainMenu::GetExitBtn() const
 ABFramework::Sprite* ABFramework::SceneMainMenu::GetTwoPlayerBtn() const
 {
 	return pTwoPlayerBtn;
+}
+
+ABFramework::Sprite* ABFramework::SceneMainMenu::GetOnePlayerBtn() const
+{
+	return pOnePlayerBtn;
 }
 
 //********************************************************************************//

@@ -50,11 +50,14 @@ namespace ABFramework
 		// ----- Setters ----- //
 
 		static void NextPlayer();
+		static void ActivateAI();
+		static void DisableAI();
 
 		// ----- Getters ----- //
 
 		static TurnPlayer GetCurrentTurn();
 		static GameState GetGameState();
+		//static class AIPlayer* GetAIPlayer();
 		static AI_State GetAIState();
 		class GameBoard* GetGameBoard();
 		class Sprite* GetMainMenuBtn();
@@ -82,6 +85,7 @@ namespace ABFramework
 		class CurrentPlayerIcon* pCurrentPlayerIcon;
 		class Sprite* pMainMenuBtn;
 		class Sprite* pGameResult;
+		class AIPlayer* pAIplayer;
 		t_handle h_Draw;
 		t_handle h_PlayerOneWin;
 		t_handle h_PlayerTwoWin;

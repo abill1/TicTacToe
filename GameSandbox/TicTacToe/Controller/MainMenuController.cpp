@@ -6,6 +6,7 @@
 #include "../Scenes/SceneMainMenu.h"
 #include "../Scenes/SceneManager.h"
 #include "../Engine/Core/Window/Window.h"
+#include "../Scenes/ScenePlayerTwo.h"
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 
@@ -23,7 +24,11 @@ void ABFramework::MainMenuController::OnClickLeft(GLFWwindow* window, int button
 		}
 		else if (Collision::Check(SceneManager::GetMainMenuScene()->GetTwoPlayerBtn()->GetCollider(), Input::GetMouseCollider()))
 		{
-			SceneManager::NextScene();
+			SceneManager::SwitchScene(SceneManager::SceneName::PLAYER_TWO);
+		}
+		else if (Collision::Check(SceneManager::GetMainMenuScene()->GetOnePlayerBtn()->GetCollider(), Input::GetMouseCollider()))
+		{
+			SceneManager::SwitchScene(SceneManager::SceneName::PLAYER_ONE);
 		}
 	}
 }

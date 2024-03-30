@@ -12,7 +12,7 @@ namespace ABFramework
 	struct TileData
 	{
 		int m_boardPosition;
-		Tile::State m_State;
+		int m_State;
 		int m_weight;
 	};
 
@@ -20,7 +20,7 @@ namespace ABFramework
 	{
 	public:
 
-		enum class State
+		enum class State : int
 		{
 			EMPTY,
 			X,

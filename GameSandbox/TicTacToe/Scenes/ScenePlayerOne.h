@@ -10,6 +10,12 @@ namespace ABFramework
 	class ScenePlayerOne : public Scene
 	{
 	public:
+		enum class AI_State
+		{
+			INACTIVE,
+			ACTIVE
+		};
+
 		enum class TurnPlayer : bool
 		{
 			ONE = true,
@@ -43,9 +49,45 @@ namespace ABFramework
 
 		// ----- Setters ----- //
 
+		static void NextPlayer();
+		static void ActivateAI();
+		static void DisableAI();
+
 		// ----- Getters ----- //
 
+		static TurnPlayer GetCurrentTurn();
+		static GameState GetGameState();
+		static AI_State GetAIState();
+		class GameBoard* GetGameBoard();
+		class Sprite* GetMainMenuBtn();
+
 	private:
+		bool privTestRowWin();
+		bool privTestColWin();
+		bool privTestDiagonalWin();
+		bool privTestDraw();
+		void privSetState(int _state);
+
+	private:
+		static TurnPlayer s_PlayerTurn;
+		static GameState s_GameState;
+		static AI_State s_AIState;
+		const AssetDef defaultTexture = { "..\\Engine\\Assets\\DefaultTexture.tga","DefaultAsset" };
+		const AssetDef EmptySquare = { "..\\GameSandbox\\Assets\\Textures\\Empty.tga","Empty" };
+		const AssetDef XSquare = { "..\\GameSandbox\\Assets\\Textures\\xsquare.tga","XSquare" };
+		const AssetDef OSquare = { "..\\GameSandbox\\Assets\\Textures\\osquare.tga","OSquare" };
+		const AssetDef MainMenuBtn = { "..\\GameSandbox\\Assets\\Textures\\MainMenuBtn.tga","MainMenuBtn", true };
+		const AssetDef PlayerOneWins = { "..\\GameSandbox\\Assets\\Textures\\Player1Wins.tga","PlayerOneWins", true };
+		const AssetDef PlayerTwoWins = { "..\\GameSandbox\\Assets\\Textures\\Player2Wins.tga","PlayerTwoWins", true };
+		const AssetDef PlayersDraw = { "..\\GameSandbox\\Assets\\Textures\\Draw.tga","PlayersDraw", true };
+		class GameBoard* pBoard;
+		class CurrentPlayerIcon* pCurrentPlayerIcon;
+		class Sprite* pMainMenuBtn;
+		class Sprite* pGameResult;
+		class AIPlayer* pAIplayer;
+		t_handle h_Draw;
+		t_handle h_PlayerOneWin;
+		t_handle h_PlayerTwoWin;
 
 	};
 }

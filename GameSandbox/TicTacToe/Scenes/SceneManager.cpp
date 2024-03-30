@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "SceneMainMenu.h"
 #include "ScenePlayerTwo.h"
+#include "ScenePlayerOne.h"
 
 ABFramework::SceneManager* ABFramework::SceneManager::pInstance = nullptr;
 
@@ -9,10 +10,11 @@ ABFramework::SceneManager* ABFramework::SceneManager::pInstance = nullptr;
 //********************************************************************************//
 
 ABFramework::SceneManager::SceneManager()
-	:pMainMenu(new SceneMainMenu()), pTwoPlayer(new ScenePlayerTwo()), pActiveScene(nullptr)
+	:pMainMenu(new SceneMainMenu()), pTwoPlayer(new ScenePlayerTwo()), pOnePlayer(new ScenePlayerOne()), pActiveScene(nullptr)
 {
 	pMainMenu->SetNextScene(pTwoPlayer);
 	pTwoPlayer->SetNextScene(pMainMenu);
+	pOnePlayer->SetNextScene(pMainMenu);
 	pActiveScene = pMainMenu;
 
 }
@@ -25,6 +27,8 @@ ABFramework::SceneManager::~SceneManager()
 	pMainMenu = nullptr;
 	delete pTwoPlayer;
 	pTwoPlayer = nullptr;
+	delete pOnePlayer;
+	pOnePlayer = nullptr;
 	
 }
 
@@ -38,6 +42,30 @@ void ABFramework::SceneManager::Destroy()
 {
 	delete SceneManager::pInstance;
 	SceneManager::pInstance = nullptr;
+}
+
+void ABFramework::SceneManager::SwitchScene(SceneName _name)
+{
+	SceneManager* pInst = privGetInstance();
+
+	switch (_name)
+	{
+	case ABFramework::SceneManager::SceneName::MAIN_MENU:
+		pInst->pActiveScene = pInst->pMainMenu;
+		pInst->pActiveScene->SetupScene();
+		break;
+	case ABFramework::SceneManager::SceneName::PLAYER_ONE:
+		pInst->pActiveScene = pInst->pOnePlayer;
+		pInst->pActiveScene->SetupScene();
+		break;
+	case ABFramework::SceneManager::SceneName::PLAYER_TWO:
+		pInst->pActiveScene = pInst->pTwoPlayer;
+		pInst->pActiveScene->SetupScene();
+		break;
+	default:
+		break;
+	}
+
 }
 
 void ABFramework::SceneManager::NextScene()
@@ -67,6 +95,11 @@ ABFramework::SceneMainMenu* ABFramework::SceneManager::GetMainMenuScene()
 ABFramework::ScenePlayerTwo* ABFramework::SceneManager::GetPlayerTwoScene()
 {
 	return privGetInstance()->pTwoPlayer;
+}
+
+ABFramework::ScenePlayerOne* ABFramework::SceneManager::GetPlayerOneScene()
+{
+	return privGetInstance()->pOnePlayer;
 }
 
 //********************************************************************************//

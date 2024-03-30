@@ -23,23 +23,28 @@ ABFramework::GameBoard::GameBoard()
 	float ypos2 = -120.0f;
 	float scale = 100.0f;
 
-	for (int i = 0; i < BOARD_SIZE; i += 3)
+	for (int i = 0; i < 3; i++)
 	{
+		int mid = i + (int)GameBoard::Position::MID_LEFT;
+		int bottom = i + (int)GameBoard::Position::BOTTOM_LEFT;
+
 		pTiles[i].SetPosition(Point3D(xpos, ypos0, 0.0f));
 		pTiles[i].SetScale(scale);
-		pTiles[i + 1].SetPosition(Point3D(xpos, ypos1, 0.0f));
-		pTiles[i + 1].SetScale(scale);
-		pTiles[i + 2].SetPosition(Point3D(xpos, ypos2, 0.0f));
-		pTiles[i + 2].SetScale(scale);
+		pTiles[mid].SetPosition(Point3D(xpos, ypos1, 0.0f));
+		pTiles[mid].SetScale(scale);
+		pTiles[bottom].SetPosition(Point3D(xpos, ypos2, 0.0f));
+		pTiles[bottom].SetScale(scale);
+
 		pData[i].m_boardPosition = i;
-		pData[i].m_State = Tile::State::EMPTY;
-		pData[i].m_weight = 0.0f;
-		pData[i+1].m_boardPosition = i+1;
-		pData[i+1].m_State = Tile::State::EMPTY;
-		pData[i+1].m_weight = 0.0f;
-		pData[i+2].m_boardPosition = i+2;
-		pData[i+2].m_State = Tile::State::EMPTY;
-		pData[i+2].m_weight = 0.0f;
+		pData[i].m_State = (int)Tile::State::EMPTY;
+		pData[i].m_weight = 0;
+		pData[mid].m_boardPosition = mid;
+		pData[mid].m_State = (int)Tile::State::EMPTY;
+		pData[mid].m_weight = 0;
+		pData[bottom].m_boardPosition = bottom;
+		pData[bottom].m_State = (int)Tile::State::EMPTY;
+		pData[bottom].m_weight = 0;
+
 		xpos += xInc;
 	}
 	
@@ -86,7 +91,7 @@ void ABFramework::GameBoard::ClearBoard()
 	for (int i = 0; i < BOARD_SIZE; i++)
 	{
 		pTiles[i].SetTileEmpty();
-		pData[i].m_State = Tile::State::EMPTY;
+		pData[i].m_State = (int)Tile::State::EMPTY;
 		pData[i].m_weight = 0;
 	}
 	m_CurrentEmptyTiles = BOARD_SIZE;
@@ -98,7 +103,7 @@ void ABFramework::GameBoard::MarkTile(GameBoard::Position _index, Tile::State _p
 	if (pTiles[(int)_index].SetState(_piece))
 	{
 		m_CurrentEmptyTiles--;
-		pData[(int)_index].m_State = _piece;
+		pData[(int)_index].m_State = (int)_piece;
 		pData[(int)_index].m_weight = 0;
 	}
 
