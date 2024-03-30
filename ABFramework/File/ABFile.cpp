@@ -13,7 +13,6 @@ ABFramework::Code ABFramework::File::Load(char* buffer, size_t _bufSize, const c
 	errno_t err = fopen_s(&hFile, _filePath, "r+");
 	if (err == 0)
 	{
-		printf("File opened\n");
 		fseek(hFile, 0, SEEK_END);
 		long len = ftell(hFile);
 		rewind(hFile);
@@ -36,7 +35,6 @@ ABFramework::Code ABFramework::File::Load(char* buffer, size_t _bufSize, const A
 	errno_t err = fopen_s(&hFile, _filePath.c_str(), "r+");
 	if (err == 0)
 	{
-		printf("File opened\n");
 		fseek(hFile, 0, SEEK_END);
 		long len = ftell(hFile);
 		rewind(hFile);
@@ -57,7 +55,6 @@ ABFramework::Code ABFramework::File::Load(ABFramework::Buffer& _buffer, const AB
 	errno_t err = fopen_s(&hFile, _filePath.c_str(), "r+");
 	if (err == 0)
 	{
-		printf("File opened\n");
 		fseek(hFile, 0, SEEK_END);
 		size_t len = (size_t)ftell(hFile);
 		rewind(hFile);
