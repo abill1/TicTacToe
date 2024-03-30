@@ -72,9 +72,12 @@ ABFramework::t_handle ABFramework::AssetManager::AddTexture(const AssetDef& _ass
 	else
 		handle = _assetDef.m_name.GetHash();
 
-	handle = privGetInstance()->m_Textures.Add<Texture>(_assetDef.m_name);
-	if (handle != 0)
-		privGetInstance()->m_Textures.GetObject(handle)->Load(_assetDef.m_filePath, _assetDef.m_name.c_str(), _assetDef.m_FlipVertically);
+	if (privGetInstance()->m_Textures.Exists(handle) == false)
+	{
+		handle = privGetInstance()->m_Textures.Add<Texture>(_assetDef.m_name);
+		if (handle != 0)
+			privGetInstance()->m_Textures.GetObject(handle)->Load(_assetDef.m_filePath, _assetDef.m_name.c_str(), _assetDef.m_FlipVertically);
+	}
 
 	return handle;
 }
