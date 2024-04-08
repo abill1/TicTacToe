@@ -43,7 +43,7 @@ void ABFramework::TwoPlayerController::GLFWOnLeftClick(GLFWwindow* window, int b
 
 void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
 {
-	if (ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::ONE)
+	if (ScenePlayerTwo::GetGameState() == ScenePlayerTwo::GameState::NONE && ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::ONE)
 	{
 		GameBoard* pBoard = SceneManager::GetPlayerTwoScene()->GetGameBoard();
 		for (int i = 0; i < pBoard->GetBoardSize(); i++)
@@ -53,7 +53,6 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
 				CursorCoord coord = Input::GetCursorPosition();
 				printf("[Mouse Coord] X: %f, Y: %f\n", coord.x, coord.y);
 				pBoard->MarkTile((GameBoard::Position)i, Tile::State::X);
-				//pBoard->GetTile(i)->SetState(Tile::State::X);
 				ScenePlayerTwo::NextPlayer();
 				break;
 			}
@@ -65,7 +64,7 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerTwo()
 {
 	if (ScenePlayerTwo::GetAIState() == ScenePlayerTwo::AI_State::INACTIVE)
 	{
-		if (ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::TWO)
+		if (ScenePlayerTwo::GetGameState() == ScenePlayerTwo::GameState::NONE && ScenePlayerTwo::GetCurrentTurn() == ScenePlayerTwo::TurnPlayer::TWO)
 		{
 			GameBoard* pBoard = SceneManager::GetPlayerTwoScene()->GetGameBoard();
 			for (int i = 0; i < pBoard->GetBoardSize(); i++)

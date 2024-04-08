@@ -43,7 +43,7 @@ void ABFramework::OnePlayerController::GLFWOnLeftClick(GLFWwindow* window, int b
 
 void ABFramework::OnePlayerController::privClickLeftPlayerOne()
 {
-	if (ScenePlayerOne::GetCurrentTurn() == ScenePlayerOne::TurnPlayer::ONE)
+	if (ScenePlayerOne::GetGameState() == ScenePlayerOne::GameState::NONE && ScenePlayerOne::GetCurrentTurn() == ScenePlayerOne::TurnPlayer::ONE)
 	{
 		GameBoard* pBoard = SceneManager::GetPlayerOneScene()->GetGameBoard();
 		for (int i = 0; i < pBoard->GetBoardSize(); i++)
@@ -53,7 +53,6 @@ void ABFramework::OnePlayerController::privClickLeftPlayerOne()
 				CursorCoord coord = Input::GetCursorPosition();
 				printf("[Mouse Coord] X: %f, Y: %f\n", coord.x, coord.y);
 				pBoard->MarkTile((GameBoard::Position)i, Tile::State::X);
-				//pBoard->GetTile(i)->SetState(Tile::State::X);
 				ScenePlayerOne::NextPlayer();
 				break;
 			}

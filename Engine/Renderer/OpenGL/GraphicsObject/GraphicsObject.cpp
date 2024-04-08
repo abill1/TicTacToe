@@ -19,7 +19,16 @@ ABFramework::GraphicsObject::GraphicsObject()
 	:pShader(new ShaderObject()), pVAO(new VertexArray()),pVertBuf(new VertexBuffer()),pIndexBuf(new IndexBuffer()),pActiveTexture(nullptr),
 	m_ViewProjUniformLoc(0), m_ModelUniformLoc(0)
 {
-	pShader->Load(DEFAULT_VERTEX_SHADER_PATH, DEFAULT_FRAGMENT_SHADER_PATH);
+	String vertPath;
+	String fragPath;
+#if _DEBUG
+	String filePathRoot("..\\Shaders\\");
+	vertPath += filePathRoot;
+	fragPath += filePathRoot;
+#endif
+	vertPath += DEFAULT_VERTEX_SHADER_PATH;
+	fragPath += DEFAULT_FRAGMENT_SHADER_PATH;
+	pShader->Load(vertPath, fragPath);
 	pShader->Bind();
 	m_ViewProjUniformLoc = pShader->FindUniformLocation(VIEW_PROJECTION_UNIFORM);
 	m_ModelUniformLoc = pShader->FindUniformLocation(MODEL_UNIFORM);

@@ -1,7 +1,7 @@
 
 #include "TicTacToe/TicTacToe.h"
 
-int main()
+int main(int argc, char* argv[])
 {
 	ABFramework::MemoryTracker::Init();
     ABFramework::Code retCode = ABFramework::Code::SUCCESS;

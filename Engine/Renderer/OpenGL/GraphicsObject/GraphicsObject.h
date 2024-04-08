@@ -38,9 +38,9 @@ namespace ABFramework
 
 
 	private:
-		const char* const DEFAULT_TEXTURE_FILE_PATH = "..\\Engine\\Assets\\DefaultTexture.tga";
-		const char* const DEFAULT_VERTEX_SHADER_PATH = "..\\Engine\\Renderer\\OpenGL\\Shaders\\Default.vs.glsl";
-		const char* const DEFAULT_FRAGMENT_SHADER_PATH = "..\\Engine\\Renderer\\OpenGL\\Shaders\\Default.fs.glsl";
+		const char* const DEFAULT_TEXTURE_FILE_PATH = "DefaultTexture.tga";
+		const char* const DEFAULT_VERTEX_SHADER_PATH = "Default.vs.glsl";
+		const char* const DEFAULT_FRAGMENT_SHADER_PATH = "Default.fs.glsl";
 		const char* const VIEW_PROJECTION_UNIFORM = "u_VP";
 		const char* const MODEL_UNIFORM = "u_Model";
 		class ShaderObject*	pShader;
@@ -48,7 +48,6 @@ namespace ABFramework
 		class VertexBuffer*	pVertBuf;
 		class IndexBuffer*	pIndexBuf;
 		class Texture*		pActiveTexture;
-		//class Texture*		pDefaultTexture;
 		int m_ViewProjUniformLoc;
 		int m_ModelUniformLoc;
 

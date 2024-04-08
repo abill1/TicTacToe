@@ -42,8 +42,8 @@ namespace ABFramework
 
 
 	private:
-		const AssetDef PlayerOneText = { "..\\GameSandbox\\Assets\\Textures\\Player1X.tga","PlayerOneText", true };
-		const AssetDef PlayerTwoText = { "..\\GameSandbox\\Assets\\Textures\\Player2O.tga","PlayerTwoText", true };
+		const AssetDef PlayerOneText = { "Player1X.tga","PlayerOneText", true };
+		const AssetDef PlayerTwoText = { "Player2O.tga","PlayerTwoText", true };
 		Sprite* pPlayerOneIcon;
 		Sprite* pPlayerTwoIcon;
 		Sprite* pCurrentPlayer;
