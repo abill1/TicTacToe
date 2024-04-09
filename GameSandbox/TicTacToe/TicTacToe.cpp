@@ -29,13 +29,13 @@
 ABFramework::TicTacToe::TicTacToe(const char* _pName, int _width, int _height)
 	:Game(_pName, _width, _height)
 {
-
+	printf("Running: %s\n", _pName);
 }
 
 
 ABFramework::TicTacToe::~TicTacToe()
 {
-
+	printf("Terminating program.\n");
 }
 
 //********************************************************************************//

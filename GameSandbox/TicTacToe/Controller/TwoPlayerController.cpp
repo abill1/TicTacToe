@@ -51,7 +51,6 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerOne()
 			if (pBoard->GetTile(i)->GetState() == Tile::State::EMPTY && Collision::Check(pBoard->GetTile(i)->GetCollider(), Input::GetMouseCollider()))
 			{
 				CursorCoord coord = Input::GetCursorPosition();
-				printf("[Mouse Coord] X: %f, Y: %f\n", coord.x, coord.y);
 				pBoard->MarkTile((GameBoard::Position)i, Tile::State::X);
 				ScenePlayerTwo::NextPlayer();
 				break;
@@ -72,7 +71,6 @@ void ABFramework::TwoPlayerController::privClickLeftPlayerTwo()
 				if (pBoard->GetTile(i)->GetState() == Tile::State::EMPTY && Collision::Check(pBoard->GetTile(i)->GetCollider(), Input::GetMouseCollider()))
 				{
 					CursorCoord coord = Input::GetCursorPosition();
-					printf("[Mouse Coord] X: %f, Y: %f\n", coord.x, coord.y);
 					pBoard->MarkTile((GameBoard::Position)i, Tile::State::O);
 					ScenePlayerTwo::NextPlayer();
 					break;
